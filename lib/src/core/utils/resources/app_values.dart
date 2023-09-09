@@ -73,6 +73,7 @@ class AppSize {
   static const double s99 = 99.0;
   static const double s90 = 90.0;
   static const double s100 = 100.0;
+  static const double s335 = 335.0;
 }
 
 class AppCounts {

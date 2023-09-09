@@ -8,7 +8,8 @@ class AppStrings {
   static const String name = 'Name';
   static const String emailadrress = 'Email address';
   static const String password = 'Password';
-  static const String agreeTermsAndPrivacy = 'I agree to the Terms & Privacy';
+  static const String iAgreeTo = 'I agree to the';
+  static const String termsAndPrivacy = 'Terms & Privacy';
   static const String signUp = 'Sign up';
   static const String alreadyHaveAccount = 'Already have an account?';
 
