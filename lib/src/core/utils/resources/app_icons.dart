@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-//no edit yet
+
 class AppIcons {
   static const IconData emailOutlined = Icons.email_outlined;
-  static const IconData personOutlined = Icons.person_outlined;
+}
+
+class AppSvgIcons {
+  static const String assetsIcons = 'assets/icons';
+  static const String menu = '$assetsIcons/menu_icon.svg';
+  static const String notification = '$assetsIcons/notification_icon.svg';
 }

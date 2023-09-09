@@ -6,7 +6,6 @@ import 'package:marvelflix/src/features/main/domain/usecases/movies_usecases/get
 
 abstract class MovieRepository {
   Future<Either<ServerFailure, List<Movie>>> getAllMovies();
-  Future<Either<ServerFailure, MovieDetails>> getMovieDetail(
+  Future<Either<ServerFailure, MovieDetails>> getMovieDetails(
       MovieDetailsParameters parameters);
-  Future<Either<ServerFailure, List<Movie>>> watchMovieTrailer();
 }

@@ -7,7 +7,7 @@ import 'package:marvelflix/src/features/main/domain/repositories/movie_repositor
 class GetAllMoviesUseCase extends BaseUseCase<List<Movie>, NoParameters> {
   final MovieRepository movieRepository;
 
-  GetAllMoviesUseCase({required this.movieRepository});
+  GetAllMoviesUseCase(this.movieRepository);
 
   @override
   Future<Either<ServerFailure, List<Movie>>> call(

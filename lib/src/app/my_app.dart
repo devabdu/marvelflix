@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marvelflix/src/features/main/presentation/ui/screens/main_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -7,11 +8,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Center(),
+      home: const MainScreen(),
     );
   }
 }

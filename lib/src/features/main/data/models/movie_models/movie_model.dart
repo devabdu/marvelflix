@@ -18,9 +18,9 @@ class MovieModel extends Movie {
         title: json["title"],
         releaseDate: json["release_date"],
         duration: json["duration"],
-        overview: json["overview"],
+        overview: json["overview"] ?? "OverView",
         coverUrl: json["cover_url"],
-        trailerUrl: json["trailer_url"],
+        trailerUrl: json["trailer_url"] ?? "https://youtu.be/wS_qbDztgVY",
         directedBy: json["directed_by"],
         phase: json["phase"] ,
       );

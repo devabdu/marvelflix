@@ -29,7 +29,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<ServerFailure, MovieDetails>> getMovieDetail(
+  Future<Either<ServerFailure, MovieDetails>> getMovieDetails(
       MovieDetailsParameters parameters) async {
     final result = await movieRemoteDataSource.getMovieDetails(parameters);
     try {
@@ -42,11 +42,5 @@ class MovieRepositoryImpl extends MovieRepository {
         ServerFailure(failure.errorMessageModel.statusMessage),
       );
     }
-  }
-
-  @override
-  Future<Either<ServerFailure, List<Movie>>> watchMovieTrailer() {
-    // TODO: implement watchMovieTrailer
-    throw UnimplementedError();
   }
 }

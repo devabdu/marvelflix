@@ -10,7 +10,8 @@ class MovieDetailsModel extends MovieDetails {
       required super.trailerUrl,
       required super.directedBy,
       required super.phase,
-      required super.movieRecommendation});
+      required super.movieRecommendation,
+      required super.coverUrl});
 
   factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
       MovieDetailsModel(
@@ -18,6 +19,7 @@ class MovieDetailsModel extends MovieDetails {
         title: json["title"],
         duration: json["duration"],
         overview: json["overview"],
+        coverUrl: json["cover_url"],
         trailerUrl: json["trailer_url"],
         directedBy: json["directed_by"],
         phase: json["phase"],
