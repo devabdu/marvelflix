@@ -24,6 +24,8 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter_svg: ^2.0.7
   video_player: ^2.7.1
+  firebase_auth: ^4.9.0
+  firebase_core: ^2.15.1
 
 dev_dependencies:
   flutter_test:

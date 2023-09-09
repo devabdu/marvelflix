@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "406084847203",
+    "project_id": "marvelflix-153b5",
+    "storage_bucket": "marvelflix-153b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406084847203:android:2817ba9f96772b6e8b9a56",
+        "android_client_info": {
+          "package_name": "com.example.marvelflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDttc8f9hovefZ8gpgXHt0Z8bHjWDRY5S4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
