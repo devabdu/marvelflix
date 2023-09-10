@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marvelflix/src/core/utils/resources/app_colors.dart';
+import 'package:marvelflix/src/core/utils/resources/app_font.dart';
 
 class CustomRichText extends StatelessWidget {
   final String mainText;
@@ -19,7 +20,7 @@ class CustomRichText extends StatelessWidget {
     required this.nextWidget,
     this.fontSize,
     this.colorMainText,
-    this.colorhighlightText = AppColors.darkBlue,
+    this.colorhighlightText,
     this.highlightTextDecoration,
   });
 
@@ -29,8 +30,8 @@ class CustomRichText extends StatelessWidget {
       text: TextSpan(
         text: mainText,
         style: GoogleFonts.workSans(
-          fontSize: fontSize ?? 16,
-          fontWeight: FontWeight.w400,
+          fontSize: fontSize ?? AppFontSize.s16,
+          fontWeight: AppFontWeight.regular,
           color: colorMainText ?? AppColors.black,
         ),
         children: [
@@ -46,8 +47,8 @@ class CustomRichText extends StatelessWidget {
               },
             text: highlightText,
             style: GoogleFonts.workSans(
-              fontSize: fontSize ?? 16,
-              fontWeight: FontWeight.w700,
+              fontSize: fontSize ?? AppFontSize.s16,
+              fontWeight: AppFontWeight.bold,
               color: colorhighlightText ?? AppColors.darkBlue,
               decoration: highlightTextDecoration,
             ),

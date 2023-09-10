@@ -41,7 +41,7 @@ class CustomTextButton extends StatelessWidget {
             textButton,
             style: GoogleFonts.workSans(
               fontSize: AppFontSize.s22,
-              fontWeight: FontWeight.w700,
+              fontWeight: AppFontWeight.bold,
               color: AppColors.white,
             ),
           ),

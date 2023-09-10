@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:marvelflix/src/app/app_prefs.dart';
+import 'package:marvelflix/src/app/services_locator.dart';
 import 'package:marvelflix/src/core/utils/resources/app_colors.dart';
+import 'package:marvelflix/src/core/utils/resources/app_font.dart';
+import 'package:marvelflix/src/core/utils/resources/app_icons.dart';
 import 'package:marvelflix/src/core/utils/resources/app_strings.dart';
 import 'package:marvelflix/src/core/utils/resources/app_values.dart';
 import 'package:marvelflix/src/features/auth/presentation/screens/login_screen.dart';
+import 'package:marvelflix/src/features/auth/presentation/widgets/custom_column.dart';
 import 'package:marvelflix/src/features/auth/presentation/widgets/custom_rich_text.dart';
+import 'package:marvelflix/src/core/utils/widgets/custom_singlechildscrollview_vertical.dart';
+import 'package:marvelflix/src/core/utils/widgets/custom_sizedbox_height.dart';
+import 'package:marvelflix/src/features/auth/presentation/widgets/custom_text.dart';
 import 'package:marvelflix/src/features/auth/presentation/widgets/custom_text_button.dart';
 import 'package:marvelflix/src/features/auth/presentation/widgets/custom_text_form_field.dart';
 
@@ -15,25 +22,41 @@ class ReigsterScreen extends StatefulWidget {
   State<ReigsterScreen> createState() => _ReigsterScreenState();
 }
 
-class _ReigsterScreenState extends State<ReigsterScreen>
-    with RestorationMixin {
-  final TextEditingController _nameController = TextEditingController();
+class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
+  final AppPreferences _appPreferences = serviceLocator<AppPreferences>();
 
-  final TextEditingController _emailController = TextEditingController();
-
-  final TextEditingController _passwordController = TextEditingController();
-
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
   RestorableBoolN checkboxValue = RestorableBoolN(false);
 
   @override
   String? get restorationId => 'checkbox_demo';
   final AppPharses appPharses = AppPharses();
-  late double mediaQuerySizeOfHeight;
+  late final double mediaQuerySizeOfHeight = MediaQuery.of(context).size.height;
+  late final CustomSizedBoxHeight sizedBoxOfHeight_20;
+  late final CustomSizedBoxHeight sizedBoxOfHeight_40;
+  late final CustomSizedBoxHeight sizedBoxOfHeight_90;
 
   @override
   void initState() {
-    mediaQuerySizeOfHeight = MediaQuery.of(context).size.height;
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    sizedBoxOfHeight_20 =
+        CustomSizedBoxHeight(height: mediaQuerySizeOfHeight / 20);
+    sizedBoxOfHeight_40 =
+        CustomSizedBoxHeight(height: mediaQuerySizeOfHeight / 40);
+    sizedBoxOfHeight_90 =
+        CustomSizedBoxHeight(height: mediaQuerySizeOfHeight / 90);
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -44,44 +67,34 @@ class _ReigsterScreenState extends State<ReigsterScreen>
   @override
   void dispose() {
     checkboxValue.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   Widget _buildHeyAndEnterYourAccountText() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return const CustomCoulmn(
       children: [
-        Text(
-          AppStrings.hey,
-          style: GoogleFonts.workSans(
-            fontSize: 32,
-            fontWeight: FontWeight.w700,
-            color: AppColors.black,
-          ),
+        CustomText(
+          title: AppStrings.hey,
+          fontSize: AppFontSize.s32,
+          fontWeight: AppFontWeight.bold,
         ),
-        Text(
-          AppStrings.enterYourAccount,
-          style: GoogleFonts.workSans(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            color: AppColors.black,
-          ),
+        CustomText(
+          title: AppStrings.enterYourAccount,
+          fontSize: AppFontSize.s20,
+          fontWeight: AppFontWeight.regular,
         ),
       ],
     );
   }
 
   Widget _buildNameTextFormFiled() {
-    return Column(
+    return CustomCoulmn(
       children: [
-        Text(
-          AppStrings.name,
-          style: GoogleFonts.workSans(
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-            color: AppColors.black,
-          ),
-        ),
+        const CustomText(title: AppStrings.name),
+        sizedBoxOfHeight_90,
         CustomTextFormField(
           textEditingController: _nameController,
           keyBoardType: TextInputType.name,
@@ -91,16 +104,10 @@ class _ReigsterScreenState extends State<ReigsterScreen>
   }
 
   Widget _buildEmailTextFormFiled() {
-    return Column(
+    return CustomCoulmn(
       children: [
-        Text(
-          AppStrings.emailAddress,
-          style: GoogleFonts.workSans(
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-            color: AppColors.black,
-          ),
-        ),
+        const CustomText(title: AppStrings.emailAddress),
+        sizedBoxOfHeight_90,
         CustomTextFormField(
           textEditingController: _emailController,
           keyBoardType: TextInputType.emailAddress,
@@ -110,20 +117,14 @@ class _ReigsterScreenState extends State<ReigsterScreen>
   }
 
   Widget _buildPasswordTextFormFiled() {
-    return Column(
+    return CustomCoulmn(
       children: [
-        Text(
-          AppStrings.password,
-          style: GoogleFonts.workSans(
-            fontSize: 22,
-            fontWeight: FontWeight.w400,
-            color: AppColors.black,
-          ),
-        ),
+        const CustomText(title: AppStrings.password),
+        sizedBoxOfHeight_90,
         CustomTextFormField(
           textEditingController: _passwordController,
           keyBoardType: TextInputType.visiblePassword,
-          suffixIcon: const Icon(Icons.remove_red_eye_rounded),
+          suffixIcon: const Icon(AppIcons.eyePassword),
         ),
       ],
     );
@@ -133,7 +134,9 @@ class _ReigsterScreenState extends State<ReigsterScreen>
     return Row(
       children: [
         Checkbox(
-          fillColor: MaterialStateProperty.all<Color>(AppColors.black),
+          fillColor: MaterialStateProperty.all<Color>(AppColors.white),
+          checkColor: AppColors.darkBlue,
+          shape: const CircleBorder(),
           value: checkboxValue.value,
           onChanged: (value) {
             setState(() {
@@ -141,21 +144,25 @@ class _ReigsterScreenState extends State<ReigsterScreen>
             });
           },
         ),
-        const Expanded(
-          child: CustomRichText(
-            fontSize: 14,
-            mainText: AppStrings.iAgreeTo,
-            highlightText: AppStrings.termsAndPrivacy,
-            highlightTextDecoration: TextDecoration.underline,
-            // not handled yet
-            nextWidget: Center(),
+        CustomRichText(
+          fontSize: AppFontSize.s14,
+          mainText: AppStrings.iAgreeTo,
+          highlightText: AppStrings.termsAndPrivacy,
+          highlightTextDecoration: TextDecoration.underline,
+          colorhighlightText: AppColors.black,
+          // not handled yet
+          nextWidget: Scaffold(
+            body: Container(
+              color: AppColors.white,
+              child: const Center(child: Text('ْNot handled yet')),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildRegisterButton(BuildContext context) {
+  Widget _buildSignUpButton(BuildContext context) {
     return CustomTextButton(
       onPressed: () {
         Navigator.push(
@@ -163,7 +170,7 @@ class _ReigsterScreenState extends State<ReigsterScreen>
           MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
       },
-      textButton: AppStrings.register,
+      textButton: AppStrings.signUp,
     );
   }
 
@@ -179,25 +186,23 @@ class _ReigsterScreenState extends State<ReigsterScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: ConstEdgeInsetsGeometry.defaultPaddingAuth,
-        child: Column(
-          children: [
-            _buildHeyAndEnterYourAccountText(),
-            SizedBox(height: mediaQuerySizeOfHeight / 15),
-            _buildNameTextFormFiled(),
-            SizedBox(height: mediaQuerySizeOfHeight / 30),
-            _buildEmailTextFormFiled(),
-            SizedBox(height: mediaQuerySizeOfHeight / 30),
-            _buildPasswordTextFormFiled(),
-            SizedBox(height: mediaQuerySizeOfHeight / 15),
-            _buildLineOfAcceptOurPrivacyAndTerms(),
-            SizedBox(height: mediaQuerySizeOfHeight / 9),
-            _buildRegisterButton(context),
-            SizedBox(height: mediaQuerySizeOfHeight / 9),
-            _buildAlreadyHaveAccount(),
-          ],
-        ),
+      body: CustomSingleChildScrollViewVertical(
+        padding: AppEdgeInsetsPaddings.registerPadding,
+        children: [
+          _buildHeyAndEnterYourAccountText(),
+          sizedBoxOfHeight_20,
+          _buildNameTextFormFiled(),
+          sizedBoxOfHeight_40,
+          _buildEmailTextFormFiled(),
+          sizedBoxOfHeight_40,
+          _buildPasswordTextFormFiled(),
+          sizedBoxOfHeight_40,
+          _buildLineOfAcceptOurPrivacyAndTerms(),
+          sizedBoxOfHeight_20,
+          _buildSignUpButton(context),
+          sizedBoxOfHeight_40,
+          _buildAlreadyHaveAccount(),
+        ],
       ),
     );
   }
