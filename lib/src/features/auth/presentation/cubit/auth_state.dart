@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'auth_cubit.dart';
 
 abstract class AuthState extends Equatable {
@@ -9,6 +8,8 @@ abstract class AuthState extends Equatable {
 }
 
 class AuthInitial extends AuthState {}
+
+class SignInLoading extends AuthState {}
 
 class SignInSuccess extends AuthState {}
 
@@ -21,6 +22,8 @@ class SignInError extends AuthState {
   List<Object> get props => [error];
 }
 
+class SignUpLoading extends AuthState {}
+
 class SignUpSuccess extends AuthState {}
 
 class SignUpError extends AuthState {
@@ -31,6 +34,8 @@ class SignUpError extends AuthState {
   @override
   List<Object> get props => [error];
 }
+
+class SignOutLoading extends AuthState {}
 
 class SignOutSuccess extends AuthState {}
 

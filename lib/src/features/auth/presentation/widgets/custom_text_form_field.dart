@@ -12,7 +12,9 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? suffix;
   final bool readOnly;
+  final bool? obscureText;
   final String? Function(String?)? validator;
+  final Function(String?)? onSaved;
 
   const CustomTextFormField({
     super.key,
@@ -24,14 +26,17 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.suffix,
     this.readOnly = false,
+    this.obscureText,
     this.validator,
+    this.onSaved,
   });
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s45,
+      
       child: TextFormField(
         controller: textEditingController,
+        obscureText: obscureText ?? false,
         keyboardType: keyBoardType,
         readOnly: readOnly,
         decoration: InputDecoration(
@@ -48,6 +53,7 @@ class CustomTextFormField extends StatelessWidget {
             suffixIcon: suffixIcon,
             contentPadding: AppEdgeInsetsPaddings.textFormFieldPadding),
         validator: validator,
+        onSaved: onSaved,
       ),
     );
   }

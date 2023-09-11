@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class CustomCoulmn extends StatelessWidget {
+class CustomColumn extends StatelessWidget {
   final List<Widget> children;
 
-  const CustomCoulmn({
+  const CustomColumn({
     Key? key,
     required this.children,
   }) : super(key: key);

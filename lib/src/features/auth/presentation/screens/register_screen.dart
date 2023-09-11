@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:marvelflix/src/app/app_prefs.dart';
-import 'package:marvelflix/src/app/services_locator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:marvelflix/src/config/router/app_routes.dart';
+import 'package:marvelflix/src/core/utils/functions/valid_functions.dart';
+import 'package:marvelflix/src/core/utils/helper/shared_components.dart';
+import 'package:marvelflix/src/core/utils/helper/show_progress_indicator.dart';
+import 'package:marvelflix/src/core/utils/helper/show_snack_bar.dart';
 import 'package:marvelflix/src/core/utils/resources/app_colors.dart';
 import 'package:marvelflix/src/core/utils/resources/app_font.dart';
 import 'package:marvelflix/src/core/utils/resources/app_icons.dart';
 import 'package:marvelflix/src/core/utils/resources/app_strings.dart';
 import 'package:marvelflix/src/core/utils/resources/app_values.dart';
+import 'package:marvelflix/src/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:marvelflix/src/features/auth/presentation/screens/login_screen.dart';
 import 'package:marvelflix/src/features/auth/presentation/widgets/custom_column.dart';
 import 'package:marvelflix/src/features/auth/presentation/widgets/custom_rich_text.dart';
@@ -23,21 +28,29 @@ class ReigsterScreen extends StatefulWidget {
 }
 
 class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
-  final AppPreferences _appPreferences = serviceLocator<AppPreferences>();
-
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+
+  late String email;
+  late String password;
   RestorableBoolN checkboxValue = RestorableBoolN(false);
+  bool _obscureText = true;
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   String? get restorationId => 'checkbox_demo';
   final AppPharses appPharses = AppPharses();
   late final double mediaQuerySizeOfHeight = MediaQuery.of(context).size.height;
-  late final CustomSizedBoxHeight sizedBoxOfHeight_20;
-  late final CustomSizedBoxHeight sizedBoxOfHeight_40;
-  late final CustomSizedBoxHeight sizedBoxOfHeight_90;
+  late CustomSizedBoxHeight sizedBoxOfHeight_20;
+  late CustomSizedBoxHeight sizedBoxOfHeight_40;
+  late CustomSizedBoxHeight sizedBoxOfHeight_90;
 
   @override
   void initState() {
@@ -74,7 +87,7 @@ class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
   }
 
   Widget _buildHeyAndEnterYourAccountText() {
-    return const CustomCoulmn(
+    return const CustomColumn(
       children: [
         CustomText(
           title: AppStrings.hey,
@@ -91,40 +104,51 @@ class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
   }
 
   Widget _buildNameTextFormFiled() {
-    return CustomCoulmn(
+    return CustomColumn(
       children: [
         const CustomText(title: AppStrings.name),
         sizedBoxOfHeight_90,
         CustomTextFormField(
           textEditingController: _nameController,
           keyBoardType: TextInputType.name,
+          validator: (value) => validateName(value),
         ),
       ],
     );
   }
 
   Widget _buildEmailTextFormFiled() {
-    return CustomCoulmn(
+    return CustomColumn(
       children: [
         const CustomText(title: AppStrings.emailAddress),
         sizedBoxOfHeight_90,
         CustomTextFormField(
           textEditingController: _emailController,
           keyBoardType: TextInputType.emailAddress,
+          validator: (value) => validateEmail(value),
+          onSaved: (newValue) => email = newValue!,
         ),
       ],
     );
   }
 
   Widget _buildPasswordTextFormFiled() {
-    return CustomCoulmn(
+    return CustomColumn(
       children: [
         const CustomText(title: AppStrings.password),
         sizedBoxOfHeight_90,
         CustomTextFormField(
           textEditingController: _passwordController,
           keyBoardType: TextInputType.visiblePassword,
-          suffixIcon: const Icon(AppIcons.eyePassword),
+          obscureText: _obscureText,
+          suffixIcon: IconButton(
+            icon: Icon(
+              _obscureText ? AppIcons.visibility : AppIcons.visibilityOff,
+            ),
+            onPressed: _togglePasswordVisibility,
+          ),
+          validator: (value) => validatePassword(value),
+          onSaved: (newValue) => password = newValue!,
         ),
       ],
     );
@@ -165,13 +189,40 @@ class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
   Widget _buildSignUpButton(BuildContext context) {
     return CustomTextButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
+        _register(context);
       },
       textButton: AppStrings.signUp,
     );
+  }
+
+  Widget _buildSignUpSubmitedBloc() {
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) => previous != current,
+      listener: (context, state) {
+        if (state is SignUpLoading) {
+          showProgressIndicator(context);
+        }
+        if (state is SignUpSuccess) {
+          navigatePushNamed(context, AppRoutesName.homeRoute, '');
+        }
+        if (state is SignUpError) {
+          String message = (state).error;
+          showSnackBar(context, message);
+        }
+      },
+      child: Container(height: AppSize.s45,),
+    );
+  }
+
+  Future<void> _register(BuildContext context) async {
+    if (!_formKey.currentState!.validate()) {
+      navigatePop(context);
+      return;
+    } else {
+      _formKey.currentState!.save();
+      BlocProvider.of<AuthCubit>(context)
+          .signUpWithEmailAndPassword(email, password);
+    }
   }
 
   Widget _buildAlreadyHaveAccount() {
@@ -186,23 +237,27 @@ class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomSingleChildScrollViewVertical(
-        padding: AppEdgeInsetsPaddings.registerPadding,
-        children: [
-          _buildHeyAndEnterYourAccountText(),
-          sizedBoxOfHeight_20,
-          _buildNameTextFormFiled(),
-          sizedBoxOfHeight_40,
-          _buildEmailTextFormFiled(),
-          sizedBoxOfHeight_40,
-          _buildPasswordTextFormFiled(),
-          sizedBoxOfHeight_40,
-          _buildLineOfAcceptOurPrivacyAndTerms(),
-          sizedBoxOfHeight_20,
-          _buildSignUpButton(context),
-          sizedBoxOfHeight_40,
-          _buildAlreadyHaveAccount(),
-        ],
+      body: Form(
+        key: _formKey,
+        child: CustomSingleChildScrollViewVertical(
+          padding: AppEdgeInsetsPaddings.registerPadding,
+          children: [
+            _buildHeyAndEnterYourAccountText(),
+            sizedBoxOfHeight_20,
+            _buildNameTextFormFiled(),
+            sizedBoxOfHeight_40,
+            _buildEmailTextFormFiled(),
+            sizedBoxOfHeight_40,
+            _buildPasswordTextFormFiled(),
+            sizedBoxOfHeight_40,
+            _buildLineOfAcceptOurPrivacyAndTerms(),
+            sizedBoxOfHeight_20,
+            _buildSignUpButton(context),
+            _buildSignUpSubmitedBloc(),
+            sizedBoxOfHeight_40,
+            _buildAlreadyHaveAccount(),
+          ],
+        ),
       ),
     );
   }
