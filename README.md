@@ -14,7 +14,7 @@ To get started with this project, follow these steps:
 
 ## Hint
 
-The Signout Feature when you tap to the [notification icon] on the App Bar.
+The Signout Feature when you tap to the [notification icon] on the Appbar of Home Screen.
 
 ## Prerequisites
 
