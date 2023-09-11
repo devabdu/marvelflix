@@ -1,6 +1,6 @@
 # marvelflix -- Flojics Task
 
-An Movie Application for get(Movies, TvShows), Firebase Auth(SignInWithEmailAndPassword, SignUpWithEmailAndPassword, SignOut).
+An Movie Application for get(Movies, TvShows) and Firebase Auth(SignInWithEmailAndPassword, SignUpWithEmailAndPassword, SignOut).
 
 ## Getting Started
 
