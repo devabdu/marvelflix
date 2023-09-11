@@ -203,6 +203,7 @@ class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
           showProgressIndicator(context);
         }
         if (state is SignUpSuccess) {
+          navigatePop(context);
           navigatePushNamed(context, AppRoutesName.homeRoute, '');
         }
         if (state is SignUpError) {
@@ -210,13 +211,14 @@ class _ReigsterScreenState extends State<ReigsterScreen> with RestorationMixin {
           showSnackBar(context, message);
         }
       },
-      child: Container(height: AppSize.s45,),
+      child: Container(
+        height: AppSize.s45,
+      ),
     );
   }
 
   Future<void> _register(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
-      navigatePop(context);
       return;
     } else {
       _formKey.currentState!.save();

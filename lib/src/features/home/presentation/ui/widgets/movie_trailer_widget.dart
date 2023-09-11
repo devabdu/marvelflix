@@ -7,6 +7,7 @@ import 'package:video_player/video_player.dart';
 
 class MovieTrailerWidget extends StatefulWidget {
   late final String _movieTrailerUrl;
+   // ignore: prefer_const_constructors_in_immutables
    MovieTrailerWidget(this._movieTrailerUrl, {Key? key}) : super(key: key);
 
   @override

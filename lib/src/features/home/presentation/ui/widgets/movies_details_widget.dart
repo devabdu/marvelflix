@@ -11,7 +11,6 @@ import 'package:marvelflix/src/core/utils/resources/app_strings.dart';
 import 'package:marvelflix/src/core/utils/resources/app_values.dart';
 import 'package:marvelflix/src/core/utils/widgets/custom_sizedbox_height.dart';
 import 'package:marvelflix/src/features/home/presentation/controllers/movie_controller/movie_details_cubit.dart';
-import 'package:marvelflix/src/features/home/presentation/ui/screens/movie_trailer_screen.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_circular_progress_indicator.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_headline_text.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_text_movie.dart';
@@ -48,15 +47,16 @@ class MovieDetailsWidget extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        MovieTrailerScreen(
-                                      movieTrailerId: state.movieDetails!.id,
-                                    ),
-                                  ),
-                                );
+                                
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (BuildContext context) =>
+                                //         MovieTrailerScreen(
+                                //       movieTrailerId: state.movieDetails!.id,
+                                //     ),
+                                //   ),
+                                // );
                               },
                               icon: const Icon(
                                 AppIcons.play,

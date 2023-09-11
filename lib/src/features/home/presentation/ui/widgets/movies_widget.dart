@@ -19,9 +19,7 @@ class MoviesWidget extends StatelessWidget {
   const MoviesWidget({super.key});
 
   Widget _buildWidgetWhenDataIsLoading() {
-    return const CustomSizedBoxMovie(
-      child: CustomCircularProgressIndicator(),
-    );
+    return const CustomSizedBoxMovie(child: CustomCircularProgressIndicator());
   }
 
   @override

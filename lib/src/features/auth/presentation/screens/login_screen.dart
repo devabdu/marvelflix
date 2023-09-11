@@ -164,7 +164,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _sign(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
-      navigatePop(context);
       return;
     } else {
       _formKey.currentState!.save();

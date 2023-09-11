@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:marvelflix/src/core/utils/error/exceptions.dart';
 
 class AuthExceptionHandler {
@@ -18,6 +19,9 @@ class AuthExceptionHandler {
       case "ERROR_EMAIL_ALREADY_IN_USE":
         throw const EmailAlreadyExistsException();
       default:
+        if (kDebugMode) {
+          print(error);
+        }
         throw const FirebaseException("An undefined Error happened.");
     }
   }

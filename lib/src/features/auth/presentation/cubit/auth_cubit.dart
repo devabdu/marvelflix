@@ -27,7 +27,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
     final response =
-        await signInUseCase(SignInParameters(email: email, password: password));
+        await signUpUseCase(SignUpParameters(email: email, password: password));
 
     response.fold(
       (l) => emit(SignUpError(error: l.message)),

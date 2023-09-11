@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marvelflix/src/app/services_locator.dart';
+import 'package:marvelflix/src/core/utils/helper/shared_components.dart';
 import 'package:marvelflix/src/core/utils/resources/app_lists.dart';
 import 'package:marvelflix/src/core/utils/resources/app_icons.dart';
 import 'package:marvelflix/src/core/utils/resources/app_strings.dart';
 import 'package:marvelflix/src/core/utils/resources/app_values.dart';
 import 'package:marvelflix/src/core/utils/widgets/custom_singlechildscrollview_vertical.dart';
 import 'package:marvelflix/src/core/utils/widgets/custom_sizedbox_height.dart';
-import 'package:marvelflix/src/features/home/presentation/controllers/movie_controller/movie_cubit.dart';
-import 'package:marvelflix/src/features/home/presentation/controllers/tv_show_controller/tv_show_cubit.dart';
+import 'package:marvelflix/src/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:marvelflix/src/features/auth/presentation/screens/register_screen.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_category_section.dart';
+import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_circular_progress_indicator.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_headline_text.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/custom_svg_icon.dart';
 import 'package:marvelflix/src/features/home/presentation/ui/widgets/movies_widget.dart';
@@ -18,7 +19,7 @@ import 'package:marvelflix/src/features/home/presentation/ui/widgets/tv_shows_wi
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  PreferredSizeWidget? _buildAppBar() {
+  PreferredSizeWidget? _buildAppBar(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
       leading: Padding(
@@ -30,10 +31,17 @@ class HomeScreen extends StatelessWidget {
       ),
       title: const CustomHeadLineText(headLine: AppStrings.marvel),
       centerTitle: true,
-      actions: const [
+      actions: [
         Padding(
           padding: AppEdgeInsetsPaddings.appBarActionsPadding,
-          child: CustomSvgIcon(icon: AppSvgIcons.notification),
+          child: InkWell(
+            child: const CustomSvgIcon(icon: AppSvgIcons.notification),
+            onTap: () {
+              const CustomCircularProgressIndicator();
+              BlocProvider.of<AuthCubit>(context).signOut();
+              navigateTo(context, const ReigsterScreen());
+            },
+          ),
         ),
       ],
     );
@@ -65,26 +73,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => serviceLocator<TvShowCubit>()..getAllTvShows(),
-        ),
-        BlocProvider(
-          create: (context) => serviceLocator<MovieCubit>()..getAllMovies(),
-        ),
-      ],
-      child: Scaffold(
-        appBar: _buildAppBar(),
-        body: CustomSingleChildScrollViewVertical(
-          children: [
-            _buildTvShowSection(),
-            const CustomSizedBoxHeight(height: AppSize.s10),
-            _buildMovieSection(),
-          ],
-        ),
-        bottomNavigationBar: _buildBottomNavigationBar(),
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: CustomSingleChildScrollViewVertical(
+        children: [
+          _buildTvShowSection(),
+          const CustomSizedBoxHeight(height: AppSize.s10),
+          _buildMovieSection(),
+        ],
       ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 }
