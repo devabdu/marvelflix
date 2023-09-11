@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String emptySpace = ' ';
+  static const String emptyString = ' ';
 
   //Register Screens
   static const String hey = 'Hey, Hello';
@@ -8,7 +8,7 @@ class AppStrings {
   static const String name = 'Name';
   static const String emailadrress = 'Email address';
   static const String password = 'Password';
-  static const String iAgreeTo = 'I agree to the';
+  static const String iAgreeTo = 'I agree to the ';
   static const String termsAndPrivacy = 'Terms & Privacy';
   static const String signUp = 'Sign up';
   static const String alreadyHaveAccount = 'Already have an account?';
@@ -37,7 +37,7 @@ class AppStrings {
   static const String phase = 'Phase';
   static const String season = 'Season';
   static const String episodes = 'Episodes';
- 
+  static const String play = 'Play Trailer';
 }
 
 class AppPharses {
@@ -46,7 +46,7 @@ class AppPharses {
   }
 
   String phraseConstructionWithFirstStringEmpty(String secondString) {
-    return AppStrings.emptySpace + secondString;
+    return AppStrings.emptyString + secondString;
   }
 
   phraseConsphraseConstructionWithFirstStringEmptyruction(secondString) {}

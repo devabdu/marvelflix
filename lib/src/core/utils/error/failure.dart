@@ -13,6 +13,6 @@ class ServerFailure extends Failure {
   const ServerFailure(super.message);
 }
 
-class DatabaseFailure extends Failure {
-  const DatabaseFailure(super.message);
+class FirebaseFailure extends Failure {
+  const FirebaseFailure(super.message);
 }
